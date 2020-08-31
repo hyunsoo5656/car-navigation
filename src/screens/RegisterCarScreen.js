@@ -1,10 +1,16 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  KeyboardAvoidingView,
+} from "react-native";
+import IconTextInput from "../components/IconTextInput";
 import * as Permissions from "expo-permissions";
 import { Camera } from "expo-camera";
-
-import IconTextInput from "../components/IconTextInput";
+import ImagePickerSample from "../practices/ImagePickerSample";
 
 export default class RegisterCarScreen extends Component {
   constructor(props) {
@@ -17,20 +23,54 @@ export default class RegisterCarScreen extends Component {
       vin: "",
     };
   }
-
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         <TouchableOpacity>
-          <View>
+          <View
+            style={{
+              width: 114,
+              height: 85,
+              backgroundColor: "gray",
+              marginBottom: 10,
+            }}
+          >
             <Image />
           </View>
         </TouchableOpacity>
 
-        <IconTextInput iconProps={{ name: "ios-car" }} placeholder="모델명" />
-      </View>
+        <IconTextInput
+          wrapStyle={styles.inputStyle}
+          iconProps={{ name: "logo-model-s" }}
+          placeholder="모델명"
+        />
+        <IconTextInput
+          wrapStyle={styles.inputStyle}
+          iconProps={{ name: "ios-calendar" }}
+          placeholder="연식"
+        />
+        <IconTextInput
+          wrapStyle={styles.inputStyle}
+          iconProps={{ name: "ios-business" }}
+          placeholder="제조사"
+        />
+        <IconTextInput
+          wrapStyle={styles.inputStyle}
+          iconProps={{ name: "ios-barcode" }}
+          placeholder="VIN"
+        />
+      </KeyboardAvoidingView>
     );
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  inputStyle: {
+    marginBottom: 10,
+  },
+});
