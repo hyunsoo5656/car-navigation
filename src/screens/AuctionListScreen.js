@@ -1,45 +1,42 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View, FlatList } from "react-native";
-import { fetchCarDetail, fetchCarList } from "../services/car";
+import { Text, StyleSheet, View, Image, FlatList } from "react-native";
+import { fetchCarDetail, fetchAuctionList } from "../services/car";
+import AuctionListItem from "../components/auction/AuctionListItem";
 
-import CarListItem from "../components/CarListItem";
-
-export default class CarListScreen extends Component {
+export default class AuctionListScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      carList: [],
+      auctionList: [],
       refreshing: false,
     };
   }
-
   componentDidMount() {
-    this.refreshCar();
+    this.refreshAuction();
   }
-  renderCar({ item }) {
+  renderAuction({ item }) {
     return (
-      <CarListItem
+      <AuctionListItem
         {...item}
         onPress={() => {
-          this.props.navigation.push("MyCarDetail", { car: item });
+          this.props.navigation.push("AuctionDetail", { auction: item });
         }}
       />
     );
   }
-
-  async refreshCar() {
-    const carList = fetchCarList();
-    this.setState({ carList });
+  async refreshAuction() {
+    const auctionList = await fetchAuctionList();
+    this.setState({ auctionList });
   }
 
   render() {
     return (
       <View style={styles.container}>
         <FlatList
-          data={this.state.carList}
-          renderItem={this.renderCar.bind(this)}
+          data={this.state.auctionList}
+          renderItem={this.renderAuction.bind(this)}
           refreshing={this.state.refreshing}
-          onRefresh={this.refreshCar.bind(this)}
+          onRefresh={this.refreshAuction.bind(this)}
           keyExtractor={(item) => item.vin}
           ItemSeparatorComponent={(props) => {
             return (
@@ -63,7 +60,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: "#fff",
-    // alignItems: "center",
+    // alignItems:"center"
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "stretch",

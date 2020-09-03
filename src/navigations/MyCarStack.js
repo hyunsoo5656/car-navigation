@@ -8,6 +8,10 @@ import {
 } from "@react-navigation/stack";
 import DefaultScreen from "../screens/DefaultScreen";
 import RegisterCarScreen from "../screens/RegisterCarScreen";
+import CarListScreen from "../screens/CarListScreen";
+
+import CarDetailScreen from "../screens/CarDetailScreen";
+import AuctionRegisterScreen from "../screens/AuctionRegisterScreen";
 
 // 컴포넌트 두 개 반환 (Stack.Navigator, Stack.Screen)
 const Stack = createStackNavigator();
@@ -47,7 +51,7 @@ function MyCarStack({ navigation, ...props }) {
     >
       <Stack.Screen
         name="MyCarList"
-        component={DefaultScreen}
+        component={CarListScreen}
         options={{
           title: "차 목록",
           headerRight: (props) => {
@@ -55,18 +59,16 @@ function MyCarStack({ navigation, ...props }) {
           },
         }}
       />
-
       <Stack.Screen
         name="MyCarDetail"
-        component={DefaultScreen}
+        component={CarDetailScreen}
         options={{
           title: "차 상세조회",
           headerRight: (props) => {
             return <MyCarHeaderRight navigation={navigation} {...props} />;
           },
-          headerTitle: (props) => (
-            <Text {...props}>{navigation.getParam("car").modelName}</Text>
-          ),
+          // headerTitle: (props) =>
+          //   (<Text {...props}>{navigation.getParam('car').modelName}</Text>),
           // headerLeft: (props) => {
           //   return (
           //     <HeaderBackButton />
@@ -87,6 +89,17 @@ function MyCarStack({ navigation, ...props }) {
           //   )
           // },
           headerBackTitleVisible: true,
+        }}
+      />
+
+      <Stack.Screen
+        name="auctionRegister"
+        component={AuctionRegisterScreen}
+        options={({ route }) => {
+          const modelName = route.params.car.modelName;
+          return {
+            title: `${modelName} 등록`,
+          };
         }}
       />
     </Stack.Navigator>

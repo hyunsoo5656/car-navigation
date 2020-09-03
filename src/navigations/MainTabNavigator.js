@@ -16,6 +16,7 @@ const defaultTabBarOptions = {
 };
 
 export default function MainTabNavigator(props) {
+  // console.log(props)
   return (
     <Tab.Navigator
       initialRouteName="MyCarStack"
@@ -56,7 +57,9 @@ export default function MainTabNavigator(props) {
       {/* ios-settings */}
       <Tab.Screen
         name="SettingStack"
-        component={SettingStack}
+        component={(props2) => (
+          <SettingStack logout={props.logout} {...props2} />
+        )}
         options={{
           title: "환경설정",
           tabBarIcon: (focused, size, color) => (

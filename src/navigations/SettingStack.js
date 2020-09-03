@@ -2,6 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import DefaultScreen from "../screens/DefaultScreen";
+import SettingScreen from "../screens/SettingScreen";
 
 const Stack = createStackNavigator();
 const defaultScreenOptions = {
@@ -21,7 +22,9 @@ function SettingStack(props) {
     >
       <Stack.Screen
         name="SettingHome"
-        component={DefaultScreen}
+        component={(props2) => (
+          <SettingScreen logout={props.logout} {...props2} />
+        )}
         options={{
           title: "환경설정",
         }}
