@@ -68,22 +68,26 @@ async function registerCar(modelName, year, manufacturer, vin, image) {
   const url = `${BASE_API_URL}/car`;
   const data = new FormData();
 
-  const file =
-    Platform.OS === "android"
-      ? {
-          type: "image/jpeg",
-          uri: image.uri.replacre("file:/", "file:///"),
-          name: "car",
-        }
-      : {
-          type: image.type,
-          uri: image.uri,
-          name: "car",
-        };
+  // const file =
+  //   Platform.OS === "android"
+  //     ? {
+  //         type: "image/jpg",
+  //         uri: image.uri.replace("file:/", "file:///"),
+  //         name: "car",
+  //       }
+  //     : {
+  //         type: image.type,
+  //         uri: image.uri,
+  //         name: "car",
+  //       };
+  // console.log(file);
+  // data.append("carImage", file);
 
-  data.append("carImage", file);
-
-  // data.append("carImage", image.uri);
+  // data.append("carImage", {
+  //   type: "image/jpeg",
+  //   uri: image.uri.replace("file:/", "file:///"),
+  //   name: "car",
+  // });
   data.append("modelName", modelName);
   data.append("year", year);
   data.append("manufacturer", manufacturer);
