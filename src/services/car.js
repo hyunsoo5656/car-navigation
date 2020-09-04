@@ -58,18 +58,47 @@ function fetchCarDetail(carId) {
   }
 }
 
+import { BASE_API_URL } from "./base";
+
+import AuthToken from "../utils/AuthToken";
+
 async function registerCar(modelName, year, manufacturer, vin, image) {
-  carList = carList.concat([
-    {
-      id: carList.length + 1,
-      modelName,
-      year,
-      manufacturer,
-      vin,
-      image: image.uri,
-    },
-  ]);
-  alert("등록되었습니다.");
+  const token = await AuthToken.get();
+
+  const url = `${BASE_API_URL}/car`;
+  const data = new FormData();
+
+  // data.append("carImage", image);
+  data.append("carImage", {
+    type: image.type,
+    uri: image.uri,
+    name: "car",
+  });
+  data.append("modelName", modelName);
+  data.append("year", year);
+  data.append("manufacturer", manufacturer);
+  data.append("vin", vin);
+
+  console.log("AAA");
+
+  try {
+    const resp = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+      body: data,
+    });
+    console.log("C");
+
+    const resultData = await resp.json();
+
+    return resultData;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
 }
 
 async function fetchAuctionList() {
