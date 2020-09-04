@@ -57,10 +57,10 @@ function fetchCarDetail(carId) {
     return null;
   }
 }
-
 import { BASE_API_URL } from "./base";
 
 import AuthToken from "../utils/AuthToken";
+import { Platform } from "react-native";
 
 async function registerCar(modelName, year, manufacturer, vin, image) {
   const token = await AuthToken.get();
@@ -68,18 +68,27 @@ async function registerCar(modelName, year, manufacturer, vin, image) {
   const url = `${BASE_API_URL}/car`;
   const data = new FormData();
 
-  // data.append("carImage", image);
-  data.append("carImage", {
-    type: image.type,
-    uri: image.uri,
-    name: "car",
-  });
+  const file =
+    Platform.OS === "android"
+      ? {
+          type: "image/jpeg",
+          uri: image.uri.replacre("file:/", "file:///"),
+          name: "car",
+        }
+      : {
+          type: image.type,
+          uri: image.uri,
+          name: "car",
+        };
+
+  data.append("carImage", file);
+
+  // data.append("carImage", image.uri);
   data.append("modelName", modelName);
   data.append("year", year);
   data.append("manufacturer", manufacturer);
   data.append("vin", vin);
-
-  console.log("AAA");
+  console.log(token);
 
   try {
     const resp = await fetch(url, {
@@ -90,7 +99,6 @@ async function registerCar(modelName, year, manufacturer, vin, image) {
       },
       body: data,
     });
-    console.log("C");
 
     const resultData = await resp.json();
 
